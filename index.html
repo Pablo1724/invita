@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Una Invitación Especial</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            /* Fondo Rosa Suave (Mantenido) */
+            background-image: linear-gradient(120deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 10px 40px rgba(168, 85, 247, 0.15);
+        }
+
+        .title-font {
+            font-family: 'Dancing Script', cursive;
+        }
+
+        /* Animaciones */
+        .fade-in { animation: fadeIn 0.6s ease-out forwards; opacity: 0; transform: translateY(15px); }
+        .fade-in-delay { animation: fadeIn 0.8s ease-out 0.3s forwards; opacity: 0; transform: translateY(15px); }
+
+        @keyframes fadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .btn-option {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn-option:active { transform: scale(0.98); }
+
+        .option-img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        .custom-scroll::-webkit-scrollbar { width: 6px; }
+        .custom-scroll::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #fbcfe8; border-radius: 4px; }
+
+        /* Animación: FLOTAR */
+        .float-icon {
+            animation: float 6s ease-in-out infinite;
+            display: inline-block;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        /* Animación de brillo */
+        .twinkle {
+            animation: twinkle 2.5s infinite alternate;
+        }
+        @keyframes twinkle {
+            from { opacity: 0.6; transform: scale(1); }
+            to { opacity: 1; transform: scale(1.1); }
+        }
+    </style>
+</head>
+<body class="p-4">
+
+    <!-- Contenedor Principal -->
+    <div class="glass-card w-full max-w-md p-6 md:p-8 relative overflow-hidden fade-in mx-auto">
+        
+        <!-- Paso 1: Bienvenida -->
+        <div id="step1" class="text-center py-4">
+            
+            <!-- Icono Animado (Flotando) -->
+            <div class="mb-8 fade-in relative inline-block">
+                <!-- Efecto de brillo detrás (Rosa) -->
+                <div class="absolute inset-0 bg-pink-200 rounded-full blur-3xl opacity-50 animate-pulse"></div>
+                
+                <!-- Icono Principal: Carta -->
+                <i class="fa-solid fa-envelope-open-text text-9xl text-transparent bg-clip-text bg-gradient-to-br from-pink-500 to-rose-400 float-icon relative z-10 drop-shadow-sm"></i>
+                
+                <!-- Estrellas decorativas (Reemplazando corazones) -->
+                <i class="fa-solid fa-star text-2xl text-pink-300 absolute -top-2 -right-4 twinkle z-20" style="animation-delay: 0.2s"></i>
+                <i class="fa-solid fa-star text-xl text-yellow-300 absolute bottom-0 -left-4 twinkle z-20" style="animation-delay: 1s"></i>
+                <i class="fa-solid fa-star text-sm text-pink-400 absolute top-10 -left-6 twinkle z-20" style="animation-delay: 1.5s"></i>
+            </div>
+            
+            <h1 class="title-font text-5xl text-gray-800 mb-4 font-bold fade-in-delay">¡Hola!</h1>
+            
+            <p class="text-gray-600 text-lg leading-relaxed mb-10 fade-in-delay px-2">
+                He estado pensando en ti últimamente y, siendo honesto, <span class="text-pink-500 font-semibold">extraño tu compañía</span>.
+                <br><br>
+                Me encantaría invitarte a compartir un momento agradable. ¿Te animas?
+            </p>
+            
+            <button onclick="goToStep(2)" class="fade-in-delay w-full bg-gradient-to-r from-pink-500 to-rose-500 text-white font-bold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl hover:from-pink-600 hover:to-rose-600 transform transition hover:-translate-y-1 text-lg">
+                Ver la propuesta <i class="fa-solid fa-arrow-right ml-2"></i>
+            </button>
+        </div>
+
+        <!-- Paso 2: Elegir Actividad -->
+        <div id="step2" class="hidden text-center h-full flex flex-col justify-between">
+            <div>
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">¿Cuál es el plan ideal?</h2>
+                <p class="text-gray-500 mb-6 text-sm">Escoge lo que más se te antoje hoy</p>
+                
+                <div class="space-y-4">
+                    <button onclick="selectActivity('cafe')" class="btn-option w-full bg-white p-3 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between group hover:shadow-md hover:border-pink-200">
+                        <div class="flex items-center gap-4">
+                            <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=150&q=80" class="w-16 h-16 rounded-xl object-cover" alt="Café">
+                            <div class="text-left">
+                                <h3 class="font-bold text-gray-700 text-lg group-hover:text-pink-600 transition">Un Café</h3>
+                                <p class="text-xs text-gray-400">Plática tranquila y aromas ricos</p>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-gray-300 mr-2 group-hover:text-pink-400"></i>
+                    </button>
+
+                    <button onclick="selectActivity('cena')" class="btn-option w-full bg-white p-3 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between group hover:shadow-md hover:border-pink-200">
+                        <div class="flex items-center gap-4">
+                            <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=150&q=80" class="w-16 h-16 rounded-xl object-cover" alt="Cena">
+                            <div class="text-left">
+                                <h3 class="font-bold text-gray-700 text-lg group-hover:text-pink-600 transition">Una Cena</h3>
+                                <p class="text-xs text-gray-400">Comida deliciosa y buen ambiente</p>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-gray-300 mr-2 group-hover:text-pink-400"></i>
+                    </button>
+                </div>
+            </div>
+
+            <button onclick="goToStep(1)" class="mt-8 text-gray-400 font-medium text-sm hover:text-pink-500 flex items-center justify-center gap-2 py-2 transition">
+                <i class="fa-solid fa-arrow-left"></i> Regresar al inicio
+            </button>
+        </div>
+
+        <!-- Paso 3: Sub-opciones -->
+        <div id="step3" class="hidden text-center flex flex-col h-full">
+            <h2 class="text-2xl font-bold text-gray-800 mb-1" id="step3-title">Elige el lugar</h2>
+            <p class="text-gray-500 mb-4 text-sm">Toca la imagen que más te guste</p>
+
+            <div id="options-container" class="space-y-3 overflow-y-auto custom-scroll pr-1" style="max-height: 400px;">
+                <!-- JS llena esto -->
+            </div>
+
+            <div class="mt-4 pt-2 border-t border-gray-100">
+                 <button onclick="goToStep(2)" class="text-gray-400 font-medium text-sm hover:text-pink-500 flex items-center justify-center gap-2 w-full py-2 transition">
+                    <i class="fa-solid fa-arrow-left"></i> Regresar a categorías
+                </button>
+            </div>
+        </div>
+
+        <!-- Paso 4: Confirmación Final -->
+        <div id="step4" class="hidden text-center">
+            <div class="mb-4 relative inline-block">
+                <div class="absolute inset-0 bg-pink-200 rounded-full blur-xl opacity-60 animate-pulse"></div>
+                <img id="final-img" src="" class="relative w-32 h-32 rounded-full object-cover border-4 border-white shadow-lg mx-auto" alt="Elección">
+                <div class="absolute bottom-0 right-0 bg-green-500 text-white p-2 rounded-full border-2 border-white shadow-sm">
+                     <i class="fa-solid fa-check"></i>
+                </div>
+            </div>
+
+            <h2 class="title-font text-4xl font-bold text-gray-800 mb-2">¡Me encanta!</h2>
+            <p class="text-gray-500 mb-6">Será un placer compartir esto contigo.</p>
+            
+            <div class="bg-white/60 p-5 rounded-xl border border-pink-100 mb-8 shadow-sm text-center">
+                <p class="text-xs text-gray-400 uppercase font-bold mb-1 tracking-widest">PLAN SELECCIONADO</p>
+                <div class="w-12 h-0.5 bg-pink-300 mx-auto mb-3"></div>
+                <p id="summary-activity" class="text-md text-pink-600 font-semibold mb-1">-</p>
+                <p id="summary-place" class="text-2xl text-gray-800 font-bold">-</p>
+            </div>
+
+            <div class="space-y-3">
+                <button onclick="sendWhatsapp()" class="w-full bg-[#25D366] text-white font-bold py-4 px-6 rounded-xl shadow-lg hover:bg-[#128C7E] transition flex items-center justify-center gap-3 text-lg">
+                    <i class="fa-brands fa-whatsapp text-2xl"></i> 
+                    <span>Enviar Respuesta</span>
+                </button>
+                
+                <button onclick="goToStep(3)" class="text-gray-400 text-sm hover:text-pink-500 py-2 transition">
+                    <i class="fa-solid fa-rotate-left"></i> Cambiar opción
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // --- DATOS ---
+        const images = {
+            capresso: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=300&q=80",
+            marbella: "https://images.unsplash.com/photo-1509365465985-25d11c17e812?auto=format&fit=crop&w=300&q=80",
+            wings: "https://images.unsplash.com/photo-1567620832903-9fc6debc209f?auto=format&fit=crop&w=300&q=80",
+            meat: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=300&q=80",
+            chicken: "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=300&q=80",
+            pizza: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=300&q=80",
+            drinks: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=300&q=80"
+        };
+
+        const data = {
+            cafe: {
+                title: "Vamos por un Café",
+                options: [
+                    { name: "Capresso", img: images.capresso, desc: "Ambiente acogedor y café de especialidad" },
+                    { name: "Marbella Coffee & Bakery", img: images.marbella, desc: "Perfecto para acompañar con un postre" }
+                ]
+            },
+            cena: {
+                title: "Vamos a Cenar",
+                options: [
+                    { name: "Alitas", img: images.wings, desc: "Sabor picante y divertido" },
+                    { name: "Carnes Fritas / Asadas", img: images.meat, desc: "Para consentir el apetito" },
+                    { name: "Pollo Frito", img: images.chicken, desc: "Crujiente y clásico" },
+                    { name: "Pizza", img: images.pizza, desc: "La opción que nunca falla" },
+                    { name: "Unas Bebidas", img: images.drinks, desc: "Cócteles y charla relajada" }
+                ]
+            }
+        };
+
+        let currentSelection = {
+            activity: "",
+            place: "",
+            img: ""
+        };
+
+        function goToStep(stepNumber) {
+            [1, 2, 3, 4].forEach(n => {
+                const el = document.getElementById(`step${n}`);
+                el.classList.add('hidden');
+                el.classList.remove('fade-in');
+            });
+
+            const step = document.getElementById(`step${stepNumber}`);
+            step.classList.remove('hidden');
+            void step.offsetWidth; 
+            step.classList.add('fade-in');
+        }
+
+        function selectActivity(type) {
+            currentSelection.activity = type;
+            const content = data[type];
+            
+            document.getElementById('step3-title').innerText = type === 'cafe' ? "Elige el Lugar" : "¿Qué se te antoja?";
+            
+            const container = document.getElementById('options-container');
+            container.innerHTML = ''; 
+
+            content.options.forEach(opt => {
+                const btn = document.createElement('button');
+                // Estilos de hover actualizados a rosa
+                btn.className = "w-full bg-white p-2 rounded-xl shadow-sm border border-gray-100 flex items-center hover:bg-pink-50 transition transform hover:scale-[1.02] mb-3 group";
+                btn.onclick = () => finishSelection(opt.name, opt.img);
+                
+                btn.innerHTML = `
+                    <img src="${opt.img}" class="option-img shadow-sm group-hover:shadow-md transition" alt="${opt.name}">
+                    <div class="ml-4 text-left flex-1">
+                        <h4 class="font-bold text-gray-800 text-sm mb-1 group-hover:text-pink-700 transition">${opt.name}</h4>
+                        <p class="text-xs text-gray-500 leading-tight">${opt.desc}</p>
+                    </div>
+                    <div class="text-gray-300 mr-2 group-hover:text-pink-400">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                `;
+                container.appendChild(btn);
+            });
+
+            goToStep(3);
+        }
+
+        function finishSelection(placeName, placeImg) {
+            currentSelection.place = placeName;
+            currentSelection.img = placeImg;
+            
+            const activityTitle = currentSelection.activity === 'cafe' ? 'Salir por un Café' : 'Ir a Cenar';
+            document.getElementById('summary-activity').innerText = activityTitle;
+            document.getElementById('summary-place').innerText = placeName;
+            document.getElementById('final-img').src = placeImg;
+
+            goToStep(4);
+        }
+
+        function sendWhatsapp() {
+            const activity = currentSelection.activity === 'cafe' ? 'un café' : 'cenar';
+            
+            const text = `¡Hola! 👋 Vi tu invitación y me parece genial. Acepto ir a *${activity}*.\n\n📍 Lugar: *${currentSelection.place}*\n\n¡Coordinemos la hora! ✨`;
+            
+            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
+        }
+    </script>
+</body>
+</html>
