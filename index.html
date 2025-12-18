@@ -81,6 +81,13 @@
             from { opacity: 0.6; transform: scale(1); }
             to { opacity: 1; transform: scale(1.1); }
         }
+        
+        /* Estilos para input fecha */
+        input[type="datetime-local"] {
+            appearance: none;
+            -webkit-appearance: none;
+            color: #db2777; /* pink-600 */
+        }
     </style>
 </head>
 <body class="p-4">
@@ -183,11 +190,21 @@
             <h2 class="title-font text-4xl font-bold text-gray-800 mb-2">¡Me encanta!</h2>
             <p class="text-gray-500 mb-6">Será un placer compartir esto contigo.</p>
             
-            <div class="bg-white/60 p-5 rounded-xl border border-pink-100 mb-8 shadow-sm text-center">
+            <div class="bg-white/60 p-5 rounded-xl border border-pink-100 mb-6 shadow-sm text-center">
                 <p class="text-xs text-gray-400 uppercase font-bold mb-1 tracking-widest">PLAN SELECCIONADO</p>
                 <div class="w-12 h-0.5 bg-pink-300 mx-auto mb-3"></div>
                 <p id="summary-activity" class="text-md text-pink-600 font-semibold mb-1">-</p>
                 <p id="summary-place" class="text-2xl text-gray-800 font-bold">-</p>
+            </div>
+
+            <!-- Selector de Fecha -->
+            <div class="mb-6 text-left bg-pink-50/50 p-4 rounded-xl border border-pink-100">
+                <label class="block text-pink-600 text-sm font-bold mb-2 ml-1">
+                    <i class="fa-regular fa-calendar mr-1"></i> ¿Cuándo te gustaría?
+                </label>
+                <input type="datetime-local" id="date-input" 
+                       class="w-full px-4 py-3 rounded-xl border border-pink-200 focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-transparent bg-white shadow-sm text-gray-700">
+                <p class="text-xs text-gray-400 mt-2 ml-1">* Selecciona el día y la hora</p>
             </div>
 
             <div class="space-y-3">
@@ -241,6 +258,13 @@
             place: "",
             img: ""
         };
+
+        // Establecer fecha mínima al cargar
+        document.addEventListener('DOMContentLoaded', () => {
+            const now = new Date();
+            now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+            document.getElementById('date-input').min = now.toISOString().slice(0,16);
+        });
 
         function goToStep(stepNumber) {
             [1, 2, 3, 4].forEach(n => {
@@ -299,11 +323,21 @@
         }
 
         function sendWhatsapp() {
+            const dateInput = document.getElementById('date-input').value;
+            let dateString = "cuando tú digas";
+            
+            if (dateInput) {
+                const dateObj = new Date(dateInput);
+                const options = { weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' };
+                dateString = dateObj.toLocaleDateString('es-ES', options);
+            }
+
             const activity = currentSelection.activity === 'cafe' ? 'un café' : 'cenar';
             
-            const text = `¡Hola! 👋 Vi tu invitación y me parece genial. Acepto ir a *${activity}*.\n\n📍 Lugar: *${currentSelection.place}*\n\n¡Coordinemos la hora! ✨`;
+            const text = `¡Hola! 👋 Vi tu invitación y me parece genial. Acepto ir a *${activity}*.\n\n📍 Lugar: *${currentSelection.place}*\n📅 Propuesta: *${dateString}*\n\n¡Espero tu confirmación! ✨`;
             
-            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
+            // Número especificado: 59177905794
+            window.open(`https://api.whatsapp.com/send?phone=59177905794&text=${encodeURIComponent(text)}`, '_blank');
         }
     </script>
 </body>
